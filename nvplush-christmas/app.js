@@ -42,4 +42,9 @@ menu.onclick=()=>{const open=document.querySelector('nav').classList.toggle('ope
 document.querySelectorAll('nav a').forEach(a=>a.onclick=closeMenu);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelector('nav').classList.contains('open')){closeMenu();menu.focus()}});
 document.querySelector('#inquiry-form').addEventListener('submit',e=>{e.preventDefault();const data=new FormData(e.currentTarget);const content=`NVPLUSH Product Enquiry\n\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nProduct: ${data.get('product')}\nWishlist: ${saved.map(id=>products.find(p=>p.id===id).name).join(', ')||'None'}\n\nMessage:\n${data.get('message')}\n\nThis file was created locally and has not been sent to NVPLUSH.\n`;const url=URL.createObjectURL(new Blob(['\ufeff'+content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='NVPLUSH-product-enquiry.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);document.querySelector('#form-status').textContent='Your enquiry file is ready to download. It has not been sent. Please share it through an official brand contact channel.';});
+function reportEmbedHeight(){if(window.parent!==window){window.parent.postMessage({type:'nvplush:height',height:document.documentElement.scrollHeight},'*')}}
+window.addEventListener('load',reportEmbedHeight);
+window.addEventListener('resize',reportEmbedHeight);
+if('ResizeObserver' in window)new ResizeObserver(reportEmbedHeight).observe(document.body);
 document.querySelector('#year').textContent=new Date().getFullYear();render();
+
