@@ -1,13 +1,24 @@
 <!-- Paste this into a Squarespace Code Block. -->
 <div style="width:100%;max-width:100%;overflow:hidden;background:#fbf8f3;">
   <iframe
+    id="nvplush-christmas-site"
     src="https://raw.githack.com/JamKarry/22studio-images/main/nvplush-christmas/index.html"
     title="NVPLUSH Christmas collection"
     loading="eager"
-    style="display:block;width:100%;height:100vh;min-height:760px;border:0;background:#fbf8f3;"
+    style="display:block;width:100%;height:100vh;min-height:760px;border:0;background:#fbf8f3;overflow:hidden;"
+    scrolling="no"
     allow="clipboard-write"
   ></iframe>
 </div>
+
+<script>
+  window.addEventListener('message', function (event) {
+    if (event.origin !== 'https://raw.githack.com') return;
+    if (!event.data || event.data.type !== 'nvplush:height') return;
+    var frame = document.getElementById('nvplush-christmas-site');
+    if (frame) frame.style.height = Math.max(760, Number(event.data.height) || 0) + 'px';
+  });
+</script>
 
 <!--
 Direct asset URLs, if you prefer Squarespace Code Injection:
@@ -15,3 +26,4 @@ CSS: https://cdn.jsdelivr.net/gh/JamKarry/22studio-images@main/nvplush-christmas
 Hugeicons: https://cdn.jsdelivr.net/gh/JamKarry/22studio-images@main/nvplush-christmas/hugeicons.js
 Site JS: https://cdn.jsdelivr.net/gh/JamKarry/22studio-images@main/nvplush-christmas/app.js
 -->
+
