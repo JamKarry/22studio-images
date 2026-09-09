@@ -7,3 +7,276 @@
 .hero-copy,.hero-visual{min-width:0}
 @media(max-width:700px){h1{font-size:clamp(56px,19.4vw,76px)}.hero{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:350px){.filters{gap:13px}.product-info h3{font-size:19px}.form-row{grid-template-columns:1fr;gap:0}.hero-caption h2{font-size:25px}.hero-visual-top{letter-spacing:1px}}
+
+/* Immersive Christmas modules — background art supplied in the project brief. */
+.hero{
+  max-width:none;
+  min-height:calc(100svh - 127px);
+  grid-template-columns:minmax(360px,43%) 1fr;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(26,31,35,.78) 0%,rgba(31,37,41,.54) 36%,rgba(35,40,43,.06) 69%),
+    url('assets/snow.webp') center/cover no-repeat;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:auto 0 0;
+  height:26%;
+  z-index:-1;
+  background:linear-gradient(transparent,rgba(237,239,239,.46));
+}
+.hero-copy{
+  padding:clamp(60px,9vh,100px) 7vw 55px;
+  background:transparent;
+  color:#fff;
+  text-shadow:0 2px 25px rgba(20,24,28,.22);
+}
+.hero-copy h1{font-size:clamp(70px,7.8vw,122px);margin-top:24px}
+.hero-copy h1 em{color:#ead0ae}
+.hero-copy .intro{color:rgba(255,255,255,.82);font-size:13px}
+.hero-copy .light{background:var(--wine);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.hero-copy .light:hover{background:#873e47}
+.hero-note{color:rgba(255,255,255,.72)}
+.hero-visual{background:transparent;padding:35px 5vw 30px;justify-content:flex-end;overflow:visible}
+.hero-product{
+  width:min(720px,95%);
+  max-height:64vh;
+  object-fit:contain;
+  align-self:center;
+  margin:28px auto -5px;
+  mix-blend-mode:multiply;
+  filter:drop-shadow(0 22px 22px rgba(28,32,35,.2));
+}
+.hero-visual-top{color:rgba(38,42,44,.7);top:28px}
+.hero-caption{
+  width:min(610px,92%);
+  align-self:center;
+  padding:17px 20px;
+  margin-top:0;
+  background:rgba(255,255,255,.74);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.8);
+}
+.hero-caption h2{color:var(--wine)}
+.hero-stamp{right:5vw;top:70px;color:var(--wine)}
+
+.collection{padding-top:120px;padding-bottom:130px}
+.section-heading h2{font-size:clamp(46px,5vw,72px)}
+.product-card.featured{background:var(--green)}
+.featured .product-detail{height:100%;display:flex;flex-direction:column;justify-content:center;color:#fff7ed}
+.featured .product-label{color:#d5c39f}
+.featured .product-info p{color:#cbd3c9}
+.featured .shop-link{color:#fff7ed}
+
+.holiday-feature{
+  display:block;
+  min-height:92svh;
+  position:relative;
+  isolation:isolate;
+  background:
+    linear-gradient(90deg,rgba(28,21,16,.76) 0%,rgba(38,27,18,.49) 43%,rgba(30,24,18,.08) 76%),
+    url('assets/holiday.webp') center/cover no-repeat;
+}
+.holiday-photo{display:none}
+.holiday-copy{
+  max-width:720px;
+  min-height:92svh;
+  padding:clamp(80px,16vh,150px) 8vw 70px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:transparent;
+}
+.holiday-copy h2{font-size:clamp(60px,6.2vw,92px);line-height:.98;letter-spacing:-3px}
+.holiday-copy p{font-size:13px;color:rgba(255,255,255,.78)}
+.holiday-copy .feature-icon{right:auto;left:8vw;top:9vh;color:#e1c29e}
+.holiday-copy .light{align-self:flex-start;color:var(--wine)}
+
+.story{
+  display:block;
+  max-width:none;
+  min-height:100svh;
+  padding:clamp(105px,15vh,155px) 5vw clamp(120px,18vh,180px);
+  color:#fff8eb;
+  background:
+    linear-gradient(rgba(20,14,10,.05),rgba(20,14,10,.08)),
+    url('assets/chalkboard.jpg') center/cover no-repeat;
+}
+.story-visual{display:none}
+.story-copy{width:min(600px,50vw);margin:auto;text-align:center}
+.story-copy .eyebrow{color:#e6c391}
+.story-copy h2{font-size:clamp(48px,5.1vw,72px);margin-top:22px;text-shadow:0 2px 16px rgba(0,0,0,.35)}
+.story-copy h2 em{color:#efc58e}
+.story-copy p{max-width:510px;margin:22px auto 0;color:rgba(255,249,237,.78);font-size:13px}
+.story-copy .text-link{color:#fff8eb;border-color:rgba(255,255,255,.5)}
+.story-signature{color:#efc58e;font-size:29px}
+
+.contact{
+  min-height:100svh;
+  grid-template-columns:42% minmax(0,1fr);
+  grid-template-rows:auto auto;
+  align-content:center;
+  column-gap:0;
+  row-gap:28px;
+  padding:9vh 7vw;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.02) 0%,rgba(251,248,243,.14) 37%,rgba(251,248,243,.88) 62%,rgba(251,248,243,.97) 100%),
+    url('assets/golden.jpg') center/cover no-repeat;
+}
+.contact-copy,.contact form{grid-column:2}
+.contact-copy h2{font-size:clamp(44px,4.7vw,68px);line-height:1.03}
+.contact-copy p{font-size:13px}
+.contact-decoration{display:none}
+.contact form{
+  max-width:760px;
+  padding:30px 34px 24px;
+  background:rgba(255,255,255,.58);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 18px 50px rgba(104,78,40,.08);
+}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:47% 53%}
+  .hero-copy h1{font-size:clamp(62px,8.8vw,84px)}
+  .hero-product{width:112%;max-width:none}
+  .story-copy{width:min(620px,62vw)}
+  .contact{grid-template-columns:32% 1fr}
+}
+
+@media(max-width:700px){
+  .hero{grid-template-columns:1fr;min-height:auto;background-position:62% center}
+  .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,33,36,.78) 0%,rgba(38,42,44,.48) 46%,rgba(238,240,241,.08) 75%);z-index:-1}
+  .hero-copy{min-height:610px;padding:62px 8% 45px}
+  .hero-copy h1{font-size:clamp(64px,20vw,82px)}
+  .hero-visual{min-height:490px;padding:55px 4% 28px}
+  .hero-product{width:108%;max-height:370px;margin:0 auto -5px}
+  .hero-visual-top{color:#555;left:6%;right:6%}
+  .hero-stamp{top:72px;right:5%}
+  .hero-caption{width:94%}
+  .collection{padding-top:72px;padding-bottom:78px}
+  .section-heading h2{font-size:46px}
+  .featured .product-detail{padding:28px}
+  .holiday-feature,.holiday-copy{min-height:88svh}
+  .holiday-feature{background-position:58% center}
+  .holiday-copy{padding:100px 8% 55px;justify-content:flex-end;background:linear-gradient(0deg,rgba(24,18,13,.78),transparent 75%)}
+  .holiday-copy h2{font-size:58px}
+  .holiday-copy .feature-icon{top:45px}
+  .story{min-height:auto;padding:90px 8% 95px;background-position:center}
+  .story::before{content:'';position:absolute;inset:0;background:rgba(18,12,9,.55);z-index:0}
+  .story{position:relative;isolation:isolate}
+  .story-copy{width:100%;position:relative;z-index:1}
+  .story-copy h2{font-size:48px}
+  .story-copy p{font-size:12px}
+  .contact{min-height:auto;display:block;padding:72px 6%;background-position:24% center}
+  .contact-copy{margin-left:28%;margin-bottom:28px}
+  .contact-copy h2{font-size:43px}
+  .contact form{margin-left:13%;padding:26px 22px;background:rgba(255,255,255,.82)}
+}
+
+@media(max-width:430px){
+  .contact{background-position:18% center}
+  .contact-copy{margin-left:16%}
+  .contact form{margin-left:0}
+}
+
+/* Webflow-style section rhythm: contained hero, alternating full-bleed feature panels. */
+.hero{
+  max-width:1800px;
+  min-height:665px;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  isolation:auto;
+  overflow:hidden;
+  background:var(--wine);
+}
+.hero::before,.hero::after{content:none}
+.hero-copy{
+  padding:64px 11% 52px;
+  background:transparent;
+  color:#fff5e7;
+  text-shadow:none;
+}
+.hero-copy h1{font-size:clamp(68px,6.75vw,108px);margin:29px 0 25px}
+.hero-copy h1 em{color:#e7c4a1}
+.hero-copy .intro{color:#ebd8d0;font-size:12px}
+.hero-copy .light{background:#fff6e9;color:var(--wine);border:0}
+.hero-copy .light:hover{background:#efdcc5}
+.hero-note{color:#dbbcb7}
+.hero-visual{
+  padding:28px 7% 35px;
+  background:#fff;
+  justify-content:center;
+  overflow:hidden;
+}
+.hero-product{
+  width:100%;
+  max-width:100%;
+  max-height:435px;
+  margin:45px 0 28px;
+  mix-blend-mode:normal;
+  filter:none;
+}
+.hero-visual-top{top:30px;left:7%;right:7%;color:#827b70}
+.hero-caption{
+  width:auto;
+  align-self:stretch;
+  padding:0;
+  margin-top:auto;
+  background:transparent;
+  backdrop-filter:none;
+  border:0;
+}
+.hero-stamp{top:64px;right:28px}
+
+/* The neutral story section separates the two photographic feature modules. */
+.story{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:12%;
+  align-items:center;
+  max-width:1600px;
+  min-height:0;
+  padding:110px 6%;
+  color:var(--ink);
+  background:var(--paper);
+}
+.story::before{content:none}
+.story-visual{display:block}
+.story-copy{width:auto;margin:0;text-align:left}
+.story-copy .eyebrow{color:inherit}
+.story-copy h2{font-size:clamp(42px,4.4vw,62px);margin-top:20px;text-shadow:none}
+.story-copy h2 em{color:var(--wine)}
+.story-copy p{max-width:390px;margin:20px 0 0;color:var(--muted);font-size:12px}
+.story-copy .text-link{color:var(--ink);border-color:#a69c8e}
+.story-signature{color:var(--wine);font-size:24px}
+
+/* Full-bleed photographic sections are intentionally separated by neutral content. */
+.holiday-feature,.contact{min-height:88svh}
+.contact{border-top:0}
+
+@media(max-width:1050px){
+  .hero{min-height:600px}
+  .hero-copy{padding:52px 9%}
+  .hero-copy h1{font-size:76px}
+  .hero-product{width:100%;max-width:100%;margin:60px 0 30px}
+}
+
+@media(max-width:700px){
+  .hero{grid-template-columns:minmax(0,1fr);min-height:auto;background:var(--wine)}
+  .hero-copy{min-height:0;padding:39px 8% 34px}
+  .hero-copy h1{font-size:clamp(56px,19.4vw,76px);margin:23px 0}
+  .hero-visual{min-height:395px;padding:45px 7% 25px;background:#fff}
+  .hero-product{width:100%;max-width:100%;max-height:290px;margin:16px 0 18px}
+  .hero-visual-top{top:22px;left:7%;right:7%;color:#827b70}
+  .hero-stamp{top:52px;right:15px}
+  .hero-caption{width:auto}
+  .story{grid-template-columns:1fr;gap:54px;padding:60px 6% 55px;background:var(--paper)}
+  .story-visual{display:block;margin-right:15px}
+  .story-copy{width:auto;position:static;text-align:left}
+  .story-copy h2{font-size:44px}
+  .story-copy p{font-size:12px}
+  .contact{min-height:auto}
+}
