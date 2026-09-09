@@ -1,0 +1,51 @@
+const ROOT=document.querySelector('#nvplush-site');
+const NVPLUSH_ASSET_BASE=new URL('assets/',document.currentScript.src).href;
+const productImage=name=>`${NVPLUSH_ASSET_BASE}${name}.webp`;
+const products=[
+{id:'penguins',name:'The Penguin Family',category:'friend',tag:'THE SEASON’S LITTLE STARS',description:'Woolly hats, cosy earmuffs and festive scarves. Meet three winter companions, each with a personality of their own. A little family ready for your Christmas traditions.',short:'Three winter friends. One very merry little family.',images:['penguins','penguin-earmuffs','penguin-hat','penguin-small']},
+{id:'stockings',name:'Christmas Stockings',category:'decor',tag:'DECK THE HALLS',description:'Classic red and forest green, finished with a fluffy white cuff. Hang them in your favourite festive corner, ready for a little Christmas surprise.',short:'Ready for a little Christmas surprise.',images:['stockings']},
+{id:'gingerbread',name:'Gingerbread Friends',category:'friend',tag:'SWEET LITTLE COMPANY',description:'Striped legs, red shoes and playful hats. This cheerful gingerbread pair brings a little sweetness to your festive display.',short:'A sweet pair with plenty of personality.',images:['gingerbread']},
+{id:'snowman',name:'The Little Snowman',category:'friend',tag:'WINTER WONDER',description:'A black top hat, a bright red scarf and a little carrot nose. This round winter companion is all dressed up for the festive season.',short:'All dressed up for a cosy Christmas.',images:['snowman']},
+{id:'mice',name:'Merry Little Mice',category:'friend',tag:'BETTER TOGETHER',description:'Checked outfits, long dangling legs and tiny Christmas hats. A charming pair to sit together in your favourite festive spot.',short:'Two little friends. Twice the charm.',images:['mice']},
+{id:'goose',name:'The Raincoat Goose',category:'friend',tag:'A LITTLE SUNSHINE',description:'A yellow raincoat, bright blue feet and a curious little face. This cheerful goose brings a splash of sunshine to winter days.',short:'A bright little companion for grey days.',images:['goose']},
+{id:'reindeer',name:'Little Reindeer',category:'decor',tag:'MERRY LITTLE DETAILS',description:'Tiny antlers and festive red knits. Add a little Christmas character to a tree branch or a favourite everyday accessory.',short:'Small in size. Full of festive spirit.',images:['reindeer']}
+];
+let saved=[];try{saved=JSON.parse(localStorage.getItem('nvplush-wishlist')||'[]');if(!Array.isArray(saved))saved=[];saved=saved.filter(id=>products.some(p=>p.id===id))}catch{}
+let filter='all',activeProduct=null,lastTrigger=null;
+const grid=ROOT.querySelector('#product-grid'),dialog=ROOT.querySelector('#product-dialog');
+const productSelect=ROOT.querySelector('#inquiry-product');
+products.forEach(p=>{const option=document.createElement('option');option.value=p.name;option.textContent=p.name;productSelect.append(option)});
+function render(){
+ const visible=products.filter(p=>filter==='saved'?saved.includes(p.id):filter==='all'||p.category===filter);
+ grid.innerHTML=visible.map(p=>`<article class="product-card ${p.id==='penguins'?'featured':''}" data-id="${p.id}"><div class="product-image"><button class="product-open" data-product="${p.id}" aria-label="View ${p.name}"><img src="${productImage(p.images[0])}" alt="${p.name}" loading="lazy"></button></div><div class="product-detail"><div class="product-meta"><span class="product-label">${p.tag}</span><button class="save-product" data-save="${p.id}" aria-label="${saved.includes(p.id)?'Remove':'Save'} ${p.name}${saved.includes(p.id)?' from':' to'} wishlist" aria-pressed="${saved.includes(p.id)}">${icon('heart')}</button></div><div class="product-info"><div><h3>${p.name}</h3><p>${p.short}</p></div><button class="shop-link" data-product="${p.id}" aria-label="Discover ${p.name}">${icon('arrow')}</button></div></div></article>`).join('');
+ ROOT.querySelector('#saved-count').textContent=saved.length;
+ ROOT.querySelector('.collection-count').textContent=filter==='saved'?`Your wishlist · ${visible.length} ${visible.length===1?'gift':'gifts'}`:`${visible.length} little wonders`;
+ ROOT.querySelector('#empty-state').hidden=visible.length>0;
+ ROOT.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b.dataset.filter===filter);b.setAttribute('aria-pressed',String(b.dataset.filter===filter))});
+}
+function notify(message){const t=ROOT.querySelector('#toast');t.textContent=message;t.classList.add('visible');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('visible'),2400)}
+function toggleSave(id){saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];try{localStorage.setItem('nvplush-wishlist',JSON.stringify(saved))}catch{}render();updateDialogSave();notify(saved.includes(id)?'A little favourite, saved.':'Removed from your wishlist.')}
+function updateDialogSave(){if(activeProduct){const b=ROOT.querySelector('#dialog-save');b.innerHTML=icon('heart')+(saved.includes(activeProduct.id)?'Saved to wishlist · Remove':'Save to wishlist');b.setAttribute('aria-pressed',String(saved.includes(activeProduct.id)))}}
+function openProduct(id,trigger){activeProduct=products.find(p=>p.id===id);if(!activeProduct)return;lastTrigger=trigger;ROOT.querySelector('#dialog-title').textContent=activeProduct.name;ROOT.querySelector('#dialog-description').textContent=activeProduct.description;setImage(activeProduct.images[0]);ROOT.querySelector('#thumbnails').innerHTML=activeProduct.images.length>1?activeProduct.images.map((img,i)=>`<button class="${i===0?'active':''}" data-image="${img}" aria-label="View ${activeProduct.name} image ${i+1}" aria-pressed="${i===0}"><img alt="" src="${productImage(img)}"></button>`).join(''):'';updateDialogSave();dialog.showModal();document.body.style.overflow='hidden'}
+function setImage(img){const el=ROOT.querySelector('#dialog-image');el.src=productImage(img);el.alt=activeProduct.name;ROOT.querySelectorAll('[data-image]').forEach(b=>{const active=b.dataset.image===img;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))})}
+ROOT.addEventListener('click',e=>{const product=e.target.closest('[data-product]'),save=e.target.closest('[data-save]'),f=e.target.closest('[data-filter]'),thumb=e.target.closest('[data-image]');if(product)openProduct(product.dataset.product,product);if(save)toggleSave(save.dataset.save);if(f){filter=f.dataset.filter;render()}if(thumb)setImage(thumb.dataset.image)});
+ROOT.querySelector('.dialog-close').onclick=()=>dialog.close();
+dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
+dialog.addEventListener('close',()=>{document.body.style.overflow='';lastTrigger?.focus()});
+ROOT.querySelector('#dialog-save').onclick=()=>toggleSave(activeProduct.id);
+ROOT.querySelector('#dialog-inquire').onclick=()=>{productSelect.value=activeProduct.name;dialog.close();ROOT.querySelector('#contact').scrollIntoView({behavior:'smooth'});setTimeout(()=>ROOT.querySelector('input[name=name]').focus({preventScroll:true}),350)};
+ROOT.querySelector('.saved-button').onclick=()=>{filter='saved';render();ROOT.querySelector('#collection').scrollIntoView()};
+ROOT.querySelector('#show-all').onclick=()=>{filter='all';render()};
+ROOT.querySelector('#explore-decor').onclick=()=>{filter='decor';render();ROOT.querySelector('#collection').scrollIntoView()};
+const menu=ROOT.querySelector('.menu-toggle');
+function closeMenu(){ROOT.querySelector('nav').classList.remove('open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open navigation');menu.innerHTML=icon('menu')}
+menu.onclick=()=>{const open=ROOT.querySelector('nav').classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close navigation':'Open navigation');menu.innerHTML=icon(open?'close':'menu')};
+ROOT.querySelectorAll('nav a').forEach(a=>a.onclick=closeMenu);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ROOT.querySelector('nav').classList.contains('open')){closeMenu();menu.focus()}});
+ROOT.querySelector('#inquiry-form').addEventListener('submit',e=>{e.preventDefault();const data=new FormData(e.currentTarget);const content=`NVPLUSH Product Enquiry\n\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nProduct: ${data.get('product')}\nWishlist: ${saved.map(id=>products.find(p=>p.id===id).name).join(', ')||'None'}\n\nMessage:\n${data.get('message')}\n\nThis file was created locally and has not been sent to NVPLUSH.\n`;const url=URL.createObjectURL(new Blob(['\ufeff'+content],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='NVPLUSH-product-enquiry.txt';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);ROOT.querySelector('#form-status').textContent='Your enquiry file is ready to download. It has not been sent. Please share it through an official brand contact channel.';});
+function reportEmbedHeight(){if(window.parent!==window){window.parent.postMessage({type:'nvplush:height',height:document.documentElement.scrollHeight},'*')}}
+window.addEventListener('load',reportEmbedHeight);
+window.addEventListener('resize',reportEmbedHeight);
+if('ResizeObserver' in window)new ResizeObserver(reportEmbedHeight).observe(ROOT);
+ROOT.querySelector('#year').textContent=new Date().getFullYear();render();
+
