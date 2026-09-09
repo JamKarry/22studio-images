@@ -21,4 +21,4 @@ Confirm brand copy, official contact details, product specifications and purchas
 The earlier version is preserved in `../_design-source/v1/`.
 
 ## Squarespace embed
-Paste the contents of `squarespace-embed.html` into a Squarespace Code Block. All images, CSS and JavaScript are loaded from the public GitHub repository through jsDelivr.
+Paste the contents of `squarespace-embed.html` into a Squarespace Code Block. The standalone HTML uses raw.githack, while images, CSS and JavaScript can be loaded directly through jsDelivr.
